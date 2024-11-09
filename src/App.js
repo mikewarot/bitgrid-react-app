@@ -8,6 +8,7 @@ function App() {
       <header className="App-header">
         <h1>Bitgrid - a novel  BITwise GRID-based Computation Model</h1>
         <LEDGrid rows={10} cols={10} />
+        <h2><a href="https://github.com/mikewarot/bitgrid-react-app">GitHub repository</a></h2>
       </header>
     </div>
   );
