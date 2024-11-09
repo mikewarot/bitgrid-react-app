@@ -18,9 +18,10 @@
 .led {
   width: 20px;
   height: 20px;
-  margin: 2px;
+  margin: 5px; /* Increase margin to space out the LEDs */
   background-color: grey;
   cursor: pointer;
+  transform: rotate(45deg); /* Rotate the LED boxes by 45 degrees */
 }
 
 .led.on {
