@@ -1,3 +1,7 @@
+Mike Warot uses GitHub's CoPilot to try to build a BitGrid simulator for the world to try out
+
+=== Stock stuff below this line ===
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
