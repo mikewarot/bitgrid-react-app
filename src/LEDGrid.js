@@ -4,20 +4,33 @@ import './LEDGrid.css';
 
 const LEDGrid = ({ rows, cols }) => {
   const [grid, setGrid] = useState(
-    Array(rows).fill().map(() => Array(cols).fill({ isOn: false, values: ["0000", "0000", "0000", "0000"] }))
+    Array(rows).fill().map(() => Array(cols).fill({
+      leds: [false, false, false, false],
+      values: ["0000", "0000", "0000", "0000"]
+    }))
   );
   const [contextMenu, setContextMenu] = useState(null);
 
-  const toggleLED = (row, col) => {
+  const toggleLED = (row, col, ledIndex) => {
     const newGrid = grid.map((r, rowIndex) =>
-      r.map((c, colIndex) => (rowIndex === row && colIndex === col ? { ...c, isOn: !c.isOn } : c))
+      r.map((c, colIndex) => {
+        if (rowIndex === row && colIndex === col) {
+          const newLeds = [...c.leds];
+          newLeds[ledIndex] = !newLeds[ledIndex];
+          return { ...c, leds: newLeds };
+        }
+        return c;
+      })
     );
     setGrid(newGrid);
   };
 
   const shiftLeft = () => {
     const newGrid = grid.map(row => {
-      const newRow = [...row.slice(1), { isOn: false, values: ["0000", "0000", "0000", "0000"] }];
+      const newRow = [...row.slice(1), {
+        leds: [false, false, false, false],
+        values: ["0000", "0000", "0000", "0000"]
+      }];
       return newRow;
     });
     setGrid(newGrid);
@@ -25,7 +38,10 @@ const LEDGrid = ({ rows, cols }) => {
 
   const shiftRight = () => {
     const newGrid = grid.map(row => {
-      const newRow = [{ isOn: false, values: ["0000", "0000", "0000", "0000"] }, ...row.slice(0, -1)];
+      const newRow = [{
+        leds: [false, false, false, false],
+        values: ["0000", "0000", "0000", "0000"]
+      }, ...row.slice(0, -1)];
       return newRow;
     });
     setGrid(newGrid);
@@ -70,13 +86,15 @@ const LEDGrid = ({ rows, cols }) => {
               <div
                 key={colIndex}
                 className="led-cluster"
-                onClick={() => toggleLED(rowIndex, colIndex)}
                 onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               >
-                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
-                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
-                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
-                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
+                {cell.leds.map((isOn, ledIndex) => (
+                  <div
+                    key={ledIndex}
+                    className={`led ${isOn ? 'on' : 'off'}`}
+                    onClick={() => toggleLED(rowIndex, colIndex, ledIndex)}
+                  />
+                ))}
               </div>
             ))}
           </div>

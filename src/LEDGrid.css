@@ -59,20 +59,6 @@
   padding: 10px;
 }
 
-.context-menu button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-align: left;
-}
-
-.context-menu button:hover {
-  background-color: #f0f0f0;
-}
-
 .context-menu input {
   display: block;
   width: 60px;
