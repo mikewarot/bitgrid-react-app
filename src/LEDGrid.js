@@ -6,6 +6,7 @@ const LEDGrid = ({ rows, cols }) => {
   const [grid, setGrid] = useState(
     Array(rows).fill().map(() => Array(cols).fill(false))
   );
+  const [contextMenu, setContextMenu] = useState(null);
 
   const toggleLED = (row, col) => {
     const newGrid = grid.map((r, rowIndex) =>
@@ -30,6 +31,20 @@ const LEDGrid = ({ rows, cols }) => {
     setGrid(newGrid);
   };
 
+  const handleContextMenu = (event, row, col) => {
+    event.preventDefault();
+    setContextMenu({
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+      row,
+      col,
+    });
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
+
   return (
     <div className="led-grid-container">
       <div className="led-grid">
@@ -40,6 +55,7 @@ const LEDGrid = ({ rows, cols }) => {
                 key={colIndex}
                 className={`led ${isOn ? 'on' : 'off'}`}
                 onClick={() => toggleLED(rowIndex, colIndex)}
+                onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               />
             ))}
           </div>
@@ -49,6 +65,15 @@ const LEDGrid = ({ rows, cols }) => {
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
       </div>
+      {contextMenu && (
+        <div
+          className="context-menu"
+          style={{ top: contextMenu.mouseY, left: contextMenu.mouseX }}
+          onMouseLeave={handleClose}
+        >
+          <button onClick={() => toggleLED(contextMenu.row, contextMenu.col)}>Toggle LED</button>
+        </div>
+      )}
     </div>
   );
 };
