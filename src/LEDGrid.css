@@ -19,7 +19,7 @@
   display: grid;
   grid-template-columns: repeat(2, 10px);
   grid-template-rows: repeat(2, 10px);
-  gap: 5px; /* Space out the LEDs within the cluster */
+  gap: 3px; /* Space out the LEDs within the cluster */
   margin: 10px; /* Space out the clusters */
   transform: rotate(45deg); /* Rotate the LED clusters by 45 degrees */
 }
@@ -27,12 +27,12 @@
 .led {
   width: 10px;
   height: 10px;
-  background-color: grey;
+  background-color: darkgrey;
   cursor: pointer;
 }
 
 .led.on {
-  background-color: red;
+  background-color: blue;
 }
 
 .led.off {
