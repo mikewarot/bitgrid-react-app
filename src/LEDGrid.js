@@ -122,7 +122,10 @@ const LEDGrid = ({ rows, cols }) => {
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
         <button onClick={saveGridToFile}>Save Grid</button>
-        <input type="file" onChange={loadGridFromFile} />
+        <label className="file-load-button">
+          Load Grid
+          <input type="file" onChange={loadGridFromFile} style={{ display: 'none' }} />
+        </label>
       </div>
       {contextMenu && (
         <div
