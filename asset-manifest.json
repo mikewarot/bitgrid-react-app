@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/bitgrid-react-app/static/css/main.275d46b3.css",
-    "main.js": "/bitgrid-react-app/static/js/main.b499554f.js",
+    "main.css": "/bitgrid-react-app/static/css/main.c1aa47d6.css",
+    "main.js": "/bitgrid-react-app/static/js/main.fad7eaa4.js",
     "static/js/453.c3fb06dd.chunk.js": "/bitgrid-react-app/static/js/453.c3fb06dd.chunk.js",
     "index.html": "/bitgrid-react-app/index.html",
-    "main.275d46b3.css.map": "/bitgrid-react-app/static/css/main.275d46b3.css.map",
-    "main.b499554f.js.map": "/bitgrid-react-app/static/js/main.b499554f.js.map",
+    "main.c1aa47d6.css.map": "/bitgrid-react-app/static/css/main.c1aa47d6.css.map",
+    "main.fad7eaa4.js.map": "/bitgrid-react-app/static/js/main.fad7eaa4.js.map",
     "453.c3fb06dd.chunk.js.map": "/bitgrid-react-app/static/js/453.c3fb06dd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.275d46b3.css",
-    "static/js/main.b499554f.js"
+    "static/css/main.c1aa47d6.css",
+    "static/js/main.fad7eaa4.js"
   ]
 }
