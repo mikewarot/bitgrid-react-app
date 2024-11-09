@@ -1,5 +1,7 @@
 Mike Warot uses GitHub's CoPilot to try to build a BitGrid simulator for the world to try out
 
+You can [try it online](https://mikewarot.github.io/bitgrid-react-app/)
+
 === Stock stuff below this line ===
 
 # Getting Started with Create React App
