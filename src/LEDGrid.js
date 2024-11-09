@@ -69,10 +69,15 @@ const LEDGrid = ({ rows, cols }) => {
             {row.map((cell, colIndex) => (
               <div
                 key={colIndex}
-                className={`led ${cell.isOn ? 'on' : 'off'}`}
+                className="led-cluster"
                 onClick={() => toggleLED(rowIndex, colIndex)}
                 onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
-              />
+              >
+                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
+                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
+                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
+                <div className={`led ${cell.isOn ? 'on' : 'off'}`} />
+              </div>
             ))}
           </div>
         ))}
