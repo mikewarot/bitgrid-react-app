@@ -1,7 +1,7 @@
 {
   "name": "bitgrid-react-app",
   "version": "0.1.0",
-  "homepage": "https://mikewarot.github.io/bitgrid-react-app"
+  "homepage": "https://mikewarot.github.io/bitgrid-react-app",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
