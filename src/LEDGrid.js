@@ -1,6 +1,7 @@
 // src/LEDGrid.js
 import React, { useState } from 'react';
 import './LEDGrid.css';
+import { saveAs } from 'file-saver';
 
 const LEDGrid = ({ rows, cols }) => {
   const [grid, setGrid] = useState(
@@ -77,6 +78,23 @@ const LEDGrid = ({ rows, cols }) => {
     setGrid(newGrid);
   };
 
+  const saveGridToFile = () => {
+    const blob = new Blob([JSON.stringify(grid)], { type: 'application/json' });
+    saveAs(blob, 'grid-state.json');
+  };
+
+  const loadGridFromFile = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const loadedGrid = JSON.parse(e.target.result);
+      setGrid(loadedGrid);
+      // Reset the file input value to allow the same file to be selected again
+      event.target.value = null;
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="led-grid-container">
       <div className="led-grid">
@@ -103,6 +121,8 @@ const LEDGrid = ({ rows, cols }) => {
       <div className="led-grid-controls">
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
+        <button onClick={saveGridToFile}>Save Grid</button>
+        <input type="file" onChange={loadGridFromFile} />
       </div>
       {contextMenu && (
         <div
