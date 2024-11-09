@@ -1,0 +1,26 @@
+/* src/LEDGrid.css */
+.led-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.led-row {
+  display: flex;
+}
+
+.led {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  background-color: grey;
+  cursor: pointer;
+}
+
+.led.on {
+  background-color: red;
+}
+
+.led.off {
+  background-color: grey;
+}
