@@ -2,6 +2,18 @@ Mike Warot uses GitHub's CoPilot to try to build a BitGrid simulator for the wor
 
 You can [try it online](https://mikewarot.github.io/bitgrid-react-app/)
 
+So far, I've got the 4 output bits from each bitgrid cell, and a way to store the program in each cell. I also have a way to save and load the state, it even works on my phone!
+
+Eventually the "shift right" and "shift left" buttons will instead be the 2 phases of clock
+
+---
+
+ToDo:
+- add actual bitgrid logic
+- highlight checkerboard pattern of clock phases?
+- do some examples
+  
+
 === Stock stuff below this line ===
 
 # Getting Started with Create React App
