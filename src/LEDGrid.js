@@ -14,19 +14,41 @@ const LEDGrid = ({ rows, cols }) => {
     setGrid(newGrid);
   };
 
+  const shiftLeft = () => {
+    const newGrid = grid.map(row => {
+      const newRow = [...row.slice(1), false];
+      return newRow;
+    });
+    setGrid(newGrid);
+  };
+
+  const shiftRight = () => {
+    const newGrid = grid.map(row => {
+      const newRow = [false, ...row.slice(0, -1)];
+      return newRow;
+    });
+    setGrid(newGrid);
+  };
+
   return (
-    <div className="led-grid">
-      {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="led-row">
-          {row.map((isOn, colIndex) => (
-            <div
-              key={colIndex}
-              className={`led ${isOn ? 'on' : 'off'}`}
-              onClick={() => toggleLED(rowIndex, colIndex)}
-            />
-          ))}
-        </div>
-      ))}
+    <div className="led-grid-container">
+      <div className="led-grid">
+        {grid.map((row, rowIndex) => (
+          <div key={rowIndex} className="led-row">
+            {row.map((isOn, colIndex) => (
+              <div
+                key={colIndex}
+                className={`led ${isOn ? 'on' : 'off'}`}
+                onClick={() => toggleLED(rowIndex, colIndex)}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="led-grid-controls">
+        <button onClick={shiftLeft}>Shift Left</button>
+        <button onClick={shiftRight}>Shift Right</button>
+      </div>
     </div>
   );
 };
