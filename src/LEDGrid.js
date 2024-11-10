@@ -95,6 +95,34 @@ const LEDGrid = ({ rows, cols }) => {
     reader.readAsText(file);
   };
 
+  const runPhaseA = () => {
+    const newGrid = grid.map((row, rowIndex) =>
+      row.map((cell, colIndex) => {
+        if ((rowIndex + colIndex) % 2 !== 0) {
+          // Update the cell as needed for Phase A
+          const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
+          return { ...cell, leds: newLeds };
+        }
+        return cell;
+      })
+    );
+    setGrid(newGrid);
+  };
+
+  const runPhaseB = () => {
+    const newGrid = grid.map((row, rowIndex) =>
+      row.map((cell, colIndex) => {
+        if ((rowIndex + colIndex) % 2 == 0) {
+          // Update the cell as needed for Phase B
+          const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
+          return { ...cell, leds: newLeds };
+        }
+        return cell;
+      })
+    );
+    setGrid(newGrid);
+  };  
+
   return (
     <div className="led-grid-container">
       <div className="led-grid">
@@ -122,6 +150,8 @@ const LEDGrid = ({ rows, cols }) => {
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
         <button onClick={saveGridToFile}>Save Grid</button>
+        <button onClick={runPhaseA}>Phase A</button>
+        <button onClick={runPhaseB}>Phase B</button>
         <label className="file-load-button">
           Load Grid
           <input type="file" onChange={loadGridFromFile} style={{ display: 'none' }} />
