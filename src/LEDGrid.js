@@ -7,7 +7,8 @@ const LEDGrid = ({ rows, cols }) => {
   const [grid, setGrid] = useState(
     Array(rows).fill().map(() => Array(cols).fill({
       leds: [false, false, false, false],
-      values: ["0000", "0000", "0000", "0000"]
+ //     values: ["cccc", "f0f0", "ff00", "aaaa"]
+      values: ["aaaa", "ff00", "f0f0", "cccc"] 
     }))
   );
   const [contextMenu, setContextMenu] = useState(null);
@@ -100,7 +101,23 @@ const LEDGrid = ({ rows, cols }) => {
       row.map((cell, colIndex) => {
         if ((rowIndex + colIndex) % 2 !== 0) {
           // Update the cell as needed for Phase A
-          const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
+          // first, get the value from the cell to the left
+          const leftBit = colIndex > 0 ? (grid[rowIndex][colIndex - 1].leds[1] ? 1 : 0) : 0;
+          // then, get the value from the cell to the right
+          const rightBit = colIndex < cols - 1 ? (grid[rowIndex][colIndex + 1].leds[2] ? 1 : 0) : 0;
+          // then get the bit from the cell above
+          const topBit = rowIndex > 0 ? (grid[rowIndex - 1][colIndex].leds[3] ? 1 : 0) : 0;
+          // then get the bit from the cell below
+          const bottomBit = rowIndex < rows - 1 ? (grid[rowIndex + 1][colIndex].leds[0] ? 1 : 0) : 0;
+          // then, calculate the new value for the cell
+          const newValue = ((leftBit * 8) + (rightBit * 4) + (topBit * 2) + bottomBit);
+          // program bits are the integer value of the hex string stored in value[0]
+          const newLeds = cell.leds.map(led => led); // Example: toggle all LEDs in the cell
+          newLeds[0] = (parseInt(cell.values[0], 16) >> newValue) & 1;
+          // repeat for the other 3 leds
+          newLeds[1] = (parseInt(cell.values[1], 16) >> newValue) & 1;
+          newLeds[2] = (parseInt(cell.values[2], 16) >> newValue) & 1;
+          newLeds[3] = (parseInt(cell.values[3], 16) >> newValue) & 1;
           return { ...cell, leds: newLeds };
         }
         return cell;
@@ -114,7 +131,23 @@ const LEDGrid = ({ rows, cols }) => {
       row.map((cell, colIndex) => {
         if ((rowIndex + colIndex) % 2 === 0) {
           // Update the cell as needed for Phase B
-          const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
+          // first, get the value from the cell to the left
+          const leftBit = colIndex > 0 ? (grid[rowIndex][colIndex - 1].leds[1] ? 1 : 0) : 0;
+          // then, get the value from the cell to the right
+          const rightBit = colIndex < cols - 1 ? (grid[rowIndex][colIndex + 1].leds[2] ? 1 : 0) : 0;
+          // then get the bit from the cell above
+          const topBit = rowIndex > 0 ? (grid[rowIndex - 1][colIndex].leds[3] ? 1 : 0) : 0;
+          // then get the bit from the cell below
+          const bottomBit = rowIndex < rows - 1 ? (grid[rowIndex + 1][colIndex].leds[0] ? 1 : 0) : 0;
+          // then, calculate the new value for the cell
+          const newValue = ((leftBit * 8) + (rightBit * 4) + (topBit * 2) + bottomBit);
+          // program bits are the integer value of the hex string stored in value[0]
+          const newLeds = cell.leds.map(led => led); // Example: toggle all LEDs in the cell
+          newLeds[0] = (parseInt(cell.values[0], 16) >> newValue) & 1;
+          // repeat for the other 3 leds
+          newLeds[1] = (parseInt(cell.values[1], 16) >> newValue) & 1;
+          newLeds[2] = (parseInt(cell.values[2], 16) >> newValue) & 1;
+          newLeds[3] = (parseInt(cell.values[3], 16) >> newValue) & 1;
           return { ...cell, leds: newLeds };
         }
         return cell;
