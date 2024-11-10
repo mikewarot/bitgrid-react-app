@@ -112,7 +112,7 @@ const LEDGrid = ({ rows, cols }) => {
   const runPhaseB = () => {
     const newGrid = grid.map((row, rowIndex) =>
       row.map((cell, colIndex) => {
-        if ((rowIndex + colIndex) % 2 == 0) {
+        if ((rowIndex + colIndex) % 2 === 0) {
           // Update the cell as needed for Phase B
           const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
           return { ...cell, leds: newLeds };
