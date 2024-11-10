@@ -2,7 +2,7 @@ Mike Warot uses GitHub's CoPilot to try to build a BitGrid simulator for the wor
 
 You can [try it online](https://mikewarot.github.io/bitgrid-react-app/)
 
-The cells in a bitgrid are numbered weirdly...
+The cells in a bitgrid are numbered weirdly, because it's a grid rotated 45 degrees clockwise... (need to fix)
 
 .  0
   
@@ -28,7 +28,8 @@ Logical values
 ---
 
 ToDo:
-- add actual bitgrid logic
+- add some form of I/O
+- tools for generating programming masks
 - highlight checkerboard pattern of clock phases?
 - do some examples
   
