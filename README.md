@@ -2,9 +2,28 @@ Mike Warot uses GitHub's CoPilot to try to build a BitGrid simulator for the wor
 
 You can [try it online](https://mikewarot.github.io/bitgrid-react-app/)
 
-So far, I've got the 4 output bits from each bitgrid cell, and a way to store the program in each cell. I also have a way to save and load the state, it even works on my phone!
+The cells in a bitgrid are numbered weirdly...
 
-Eventually the "shift right" and "shift left" buttons will instead be the 2 phases of clock
+.  0
+  
+2   1
+
+.  3
+
+The cells are programmed all as pass-throughs... some experimenting is highly in order
+
+You can save the state of the grid (including its programming, which is right-click accessible)
+
+The 2 clock phases actually work
+
+Logical values
+
+- ff00 - copies from the left
+- 00ff - negate left
+- f0f0 - copies from the right
+- cccc - copies from above
+- aaaa - copies from below
+
 
 ---
 
