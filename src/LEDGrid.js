@@ -1,5 +1,5 @@
 // src/LEDGrid.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LEDGrid.css';
 import { saveAs } from 'file-saver';
 
@@ -7,11 +7,15 @@ const LEDGrid = ({ rows, cols }) => {
   const [grid, setGrid] = useState(
     Array(rows).fill().map(() => Array(cols).fill({
       leds: [false, false, false, false],
- //     values: ["cccc", "f0f0", "ff00", "aaaa"]
-      values: ["aaaa", "ff00", "f0f0", "cccc"] 
+      values: ["0000", "0000", "0000", "0000"]
     }))
   );
   const [contextMenu, setContextMenu] = useState(null);
+  const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 }); // Initialize with cell (0, 0) selected
+
+  useEffect(() => {
+    // Optionally, you can perform any additional actions when the component mounts
+  }, []);
 
   const toggleLED = (row, col, ledIndex) => {
     const newGrid = grid.map((r, rowIndex) =>
@@ -25,6 +29,11 @@ const LEDGrid = ({ rows, cols }) => {
       })
     );
     setGrid(newGrid);
+  };
+
+  const handleCellClick = (row, col, ledIndex) => {
+    setSelectedCell({ row, col });
+    toggleLED(row, col, ledIndex);
   };
 
   const shiftLeft = () => {
@@ -131,30 +140,14 @@ const LEDGrid = ({ rows, cols }) => {
       row.map((cell, colIndex) => {
         if ((rowIndex + colIndex) % 2 === 0) {
           // Update the cell as needed for Phase B
-          // first, get the value from the cell to the left
-          const leftBit = colIndex > 0 ? (grid[rowIndex][colIndex - 1].leds[1] ? 1 : 0) : 0;
-          // then, get the value from the cell to the right
-          const rightBit = colIndex < cols - 1 ? (grid[rowIndex][colIndex + 1].leds[2] ? 1 : 0) : 0;
-          // then get the bit from the cell above
-          const topBit = rowIndex > 0 ? (grid[rowIndex - 1][colIndex].leds[3] ? 1 : 0) : 0;
-          // then get the bit from the cell below
-          const bottomBit = rowIndex < rows - 1 ? (grid[rowIndex + 1][colIndex].leds[0] ? 1 : 0) : 0;
-          // then, calculate the new value for the cell
-          const newValue = ((leftBit * 8) + (rightBit * 4) + (topBit * 2) + bottomBit);
-          // program bits are the integer value of the hex string stored in value[0]
-          const newLeds = cell.leds.map(led => led); // Example: toggle all LEDs in the cell
-          newLeds[0] = (parseInt(cell.values[0], 16) >> newValue) & 1;
-          // repeat for the other 3 leds
-          newLeds[1] = (parseInt(cell.values[1], 16) >> newValue) & 1;
-          newLeds[2] = (parseInt(cell.values[2], 16) >> newValue) & 1;
-          newLeds[3] = (parseInt(cell.values[3], 16) >> newValue) & 1;
+          const newLeds = cell.leds.map(led => !led); // Example: toggle all LEDs in the cell
           return { ...cell, leds: newLeds };
         }
         return cell;
       })
     );
     setGrid(newGrid);
-  };  
+  };
 
   return (
     <div className="led-grid-container">
@@ -165,13 +158,14 @@ const LEDGrid = ({ rows, cols }) => {
               <div
                 key={colIndex}
                 className="led-cluster"
+                onClick={() => handleCellClick(rowIndex, colIndex)}
                 onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               >
                 {cell.leds.map((isOn, ledIndex) => (
                   <div
                     key={ledIndex}
                     className={`led ${isOn ? 'on' : 'off'}`}
-                    onClick={() => toggleLED(rowIndex, colIndex, ledIndex)}
+                    onClick={() => handleCellClick(rowIndex, colIndex, ledIndex)}
                   />
                 ))}
               </div>
@@ -179,6 +173,11 @@ const LEDGrid = ({ rows, cols }) => {
           </div>
         ))}
       </div>
+      <div className="selected-cell-info">
+        {selectedCell.row !== null && selectedCell.col !== null && (
+          <p>Selected Cell: Row {selectedCell.row}, Column {selectedCell.col}</p>
+        )}
+      </div>      
       <div className="led-grid-controls">
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
