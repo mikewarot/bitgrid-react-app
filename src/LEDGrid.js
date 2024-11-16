@@ -10,7 +10,6 @@ const LEDGrid = ({ rows, cols }) => {
       values: ["0000", "0000", "0000", "0000"]
     }))
   );
-  const [contextMenu, setContextMenu] = useState(null);
   const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
   const [editableValues, setEditableValues] = useState([]);
 
@@ -69,16 +68,6 @@ const LEDGrid = ({ rows, cols }) => {
       return newRow;
     });
     setGrid(newGrid);
-  };
-
-  const handleContextMenu = (event, row, col) => {
-    event.preventDefault();
-    setContextMenu({
-      mouseX: event.clientX - 2,
-      mouseY: event.clientY - 4,
-      row,
-      col,
-    });
   };
 
   const saveGridToFile = () => {
@@ -152,7 +141,6 @@ const LEDGrid = ({ rows, cols }) => {
                 key={colIndex}
                 className="led-cluster"
                 onClick={() => handleCellClick(rowIndex, colIndex)}
-                onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               >
                 {cell.leds.map((isOn, ledIndex) => (
                   <div
@@ -193,11 +181,6 @@ const LEDGrid = ({ rows, cols }) => {
           <input type="file" onChange={loadGridFromFile} style={{ display: 'none' }} />
         </label>
       </div>
-      {contextMenu && (
-        <div>
-          {/* Context menu implementation */}
-        </div>
-      )}
     </div>
   );
 };
