@@ -11,7 +11,8 @@ const LEDGrid = ({ rows, cols }) => {
     }))
   );
   const [contextMenu, setContextMenu] = useState(null);
-  const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 }); // Initialize with cell (0, 0) selected
+  const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
+  const [editableValues, setEditableValues] = useState([]);
 
   useEffect(() => {
     // Optionally, you can perform any additional actions when the component mounts
@@ -31,16 +32,21 @@ const LEDGrid = ({ rows, cols }) => {
     setGrid(newGrid);
   };
 
-  const handleCellClick = (source, rowIndex, colIndex, ledIndex = null) => {
-    if (source === 'cluster') {
-      // Handle click on led-cluster
-      console.log(`Cluster clicked at row ${rowIndex}, col ${colIndex}`);
-      setSelectedCell({ row: rowIndex, col: colIndex });
-    } else if (source === 'led') {
-      // Handle click on individual led
-      console.log(`LED clicked at row ${rowIndex}, col ${colIndex}, led ${ledIndex}`);
-      toggleLED(rowIndex, colIndex, ledIndex);
-    }
+  const handleCellClick = (rowIndex, colIndex) => {
+    setSelectedCell({ row: rowIndex, col: colIndex });
+    setEditableValues([...grid[rowIndex][colIndex].values]);
+  };
+
+  const handleValueChange = (index, newValue) => {
+    const newValues = [...editableValues];
+    newValues[index] = newValue;
+    setEditableValues(newValues);
+  };
+
+  const saveValues = () => {
+    const newGrid = [...grid];
+    newGrid[selectedCell.row][selectedCell.col].values = editableValues;
+    setGrid(newGrid);
   };
 
   const shiftLeft = () => {
@@ -157,7 +163,7 @@ const LEDGrid = ({ rows, cols }) => {
   };
 
   return (
-    <div className="led-grid-container">
+    <div>
       <div className="led-grid">
         {grid.map((row, rowIndex) => (
           <div key={rowIndex} className="led-row">
@@ -165,14 +171,14 @@ const LEDGrid = ({ rows, cols }) => {
               <div
                 key={colIndex}
                 className="led-cluster"
-                onClick={() => handleCellClick('cluster', rowIndex, colIndex)}
+                onClick={() => handleCellClick(rowIndex, colIndex)}
                 onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               >
                 {cell.leds.map((isOn, ledIndex) => (
                   <div
                     key={ledIndex}
                     className={`led ${isOn ? 'on' : 'off'}`}
-                    onClick={() => handleCellClick('led', rowIndex, colIndex, ledIndex)}
+                    onClick={() => toggleLED(rowIndex, colIndex, ledIndex)}
                   />
                 ))}
               </div>
@@ -184,10 +190,18 @@ const LEDGrid = ({ rows, cols }) => {
         {selectedCell.row !== null && selectedCell.col !== null && (
           <>
             <p>Selected Cell: Row {selectedCell.row}, Column {selectedCell.col}</p>
-            <p>Values: {grid[selectedCell.row][selectedCell.col].values.join(', ')}</p>
+            {editableValues.map((value, index) => (
+              <input
+                key={index}
+                type="text"
+                value={value}
+                onChange={(e) => handleValueChange(index, e.target.value)}
+              />
+            ))}
+            <button onClick={saveValues}>Save</button>
           </>
         )}
-      </div>      
+      </div>
       <div className="led-grid-controls">
         <button onClick={shiftLeft}>Shift Left</button>
         <button onClick={shiftRight}>Shift Right</button>
@@ -200,20 +214,8 @@ const LEDGrid = ({ rows, cols }) => {
         </label>
       </div>
       {contextMenu && (
-        <div
-          className="context-menu"
-          style={{ top: contextMenu.mouseY, left: contextMenu.mouseX }}
-          onMouseLeave={handleClose}
-        >
-          {grid[contextMenu.row][contextMenu.col].values.map((value, index) => (
-            <input
-              key={index}
-              type="text"
-              value={value}
-              maxLength="4"
-              onChange={(event) => handleInputChange(event, index)}
-            />
-          ))}
+        <div>
+          {/* Context menu implementation */}
         </div>
       )}
     </div>
