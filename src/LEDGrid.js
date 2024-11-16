@@ -182,7 +182,10 @@ const LEDGrid = ({ rows, cols }) => {
       </div>
       <div className="selected-cell-info">
         {selectedCell.row !== null && selectedCell.col !== null && (
-          <p>Selected Cell: Row {selectedCell.row}, Column {selectedCell.col}</p>
+          <>
+            <p>Selected Cell: Row {selectedCell.row}, Column {selectedCell.col}</p>
+            <p>Values: {grid[selectedCell.row][selectedCell.col].values.join(', ')}</p>
+          </>
         )}
       </div>      
       <div className="led-grid-controls">
