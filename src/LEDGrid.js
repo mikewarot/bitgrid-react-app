@@ -31,9 +31,16 @@ const LEDGrid = ({ rows, cols }) => {
     setGrid(newGrid);
   };
 
-  const handleCellClick = (row, col, ledIndex) => {
-    setSelectedCell({ row, col });
-    toggleLED(row, col, ledIndex);
+  const handleCellClick = (source, rowIndex, colIndex, ledIndex = null) => {
+    if (source === 'cluster') {
+      // Handle click on led-cluster
+      console.log(`Cluster clicked at row ${rowIndex}, col ${colIndex}`);
+      setSelectedCell({ row: rowIndex, col: colIndex });
+    } else if (source === 'led') {
+      // Handle click on individual led
+      console.log(`LED clicked at row ${rowIndex}, col ${colIndex}, led ${ledIndex}`);
+      toggleLED(rowIndex, colIndex, ledIndex);
+    }
   };
 
   const shiftLeft = () => {
@@ -158,14 +165,14 @@ const LEDGrid = ({ rows, cols }) => {
               <div
                 key={colIndex}
                 className="led-cluster"
-                onClick={() => handleCellClick(rowIndex, colIndex)}
+                onClick={() => handleCellClick('cluster', rowIndex, colIndex)}
                 onContextMenu={(event) => handleContextMenu(event, rowIndex, colIndex)}
               >
                 {cell.leds.map((isOn, ledIndex) => (
                   <div
                     key={ledIndex}
                     className={`led ${isOn ? 'on' : 'off'}`}
-                    onClick={() => handleCellClick(rowIndex, colIndex, ledIndex)}
+                    onClick={() => handleCellClick('led', rowIndex, colIndex, ledIndex)}
                   />
                 ))}
               </div>
