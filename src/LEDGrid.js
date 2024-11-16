@@ -81,26 +81,6 @@ const LEDGrid = ({ rows, cols }) => {
     });
   };
 
-  const handleClose = () => {
-    setContextMenu(null);
-  };
-
-  const handleInputChange = (event, index) => {
-    const { value } = event.target;
-    const { row, col } = contextMenu;
-    const newGrid = grid.map((r, rowIndex) =>
-      r.map((c, colIndex) => {
-        if (rowIndex === row && colIndex === col) {
-          const newValues = [...c.values];
-          newValues[index] = value;
-          return { ...c, values: newValues };
-        }
-        return c;
-      })
-    );
-    setGrid(newGrid);
-  };
-
   const saveGridToFile = () => {
     const blob = new Blob([JSON.stringify(grid)], { type: 'application/json' });
     saveAs(blob, 'grid-state.json');
